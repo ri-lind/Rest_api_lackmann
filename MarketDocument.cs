@@ -83,6 +83,9 @@ namespace LackmannApi
     }
     public class Point 
     {
+        // seems like every point of this graph is a snapshot at a 15 minute time interval
+        // 365 days * 24 hours * 4 quarters = 35040 points (for the first document).
+
         public int Position {get; set;}
         public int Quantity {get; set;}
 
