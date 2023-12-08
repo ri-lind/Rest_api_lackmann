@@ -11,7 +11,7 @@ using Npgsql;
 using System.Collections;
 using Newtonsoft.Json;
 using LackmannApi;
-
+using ScottPlot;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -25,7 +25,12 @@ app.UseSwaggerUI();
 app.MapGet("/", () => "Hello");
 app.MapGet("/documents", () => GetAllDocuments());
 app.MapGet("documents/{id}", (int id) => FetchFromDatabase(id));
-
+app.MapGet("/documents/{id}/draw", (int id) => 
+{
+    MarketDocument document = FetchFromDatabase(id);
+    document.DrawGraph();
+    return $"Document with id: {id} was drawn.";
+});
 app.Run();
 
 
