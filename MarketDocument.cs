@@ -11,13 +11,42 @@ namespace LackmannApi
    
     public class MarketDocument 
     {
-        public string MRID {get; set;}
-        public int RevisionNumber{get; set;}
-        public string Type {get; set;}
-        public string SenderMRID {get; set;}
-        public string ReceiverMRID {get; set;}
-        public DateTime CreatedTime {get; set;}
-        public ArrayList Points{get; set;}
+        public string? MRID {get; set;}
+        public int? RevisionNumber{get; set;}
+        public string? Type {get; set;}
+        public string? SenderMRID {get; set;}
+        public string? ReceiverMRID {get; set;}
+        public DateTime? CreatedTime {get; set;}
+        public ArrayList? Points{get; set;}
+        public ArrayList? HourlyPoints 
+        {
+            get 
+            {
+                ArrayList toBeHourlyPoints = new ArrayList();
+
+                for (int i = 0, positionOfPoint = 1; i < Points.Count - 4; i = i + 4, positionOfPoint++)
+                {
+                    double averageInHour = 0;
+                    for (int j = i; j < i + 4; j++)
+                    {
+                        Point thisPoint = (Point) this.Points[j];
+                        averageInHour = averageInHour + thisPoint.Quantity;
+                    }
+                    averageInHour = averageInHour / 4;
+
+                    
+
+                    Point temporaryPoint = new Point(positionOfPoint, (int) averageInHour);
+                    toBeHourlyPoints.Add(temporaryPoint);
+                }
+
+                return toBeHourlyPoints;
+            }
+            private set 
+            {
+
+            }
+        }
 
         public MarketDocument(){}
 
