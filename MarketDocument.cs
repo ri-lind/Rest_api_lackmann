@@ -25,27 +25,41 @@ namespace LackmannApi
         public List<Point>? HourlyPoints 
         {
             get 
-            {
-                if(this.Points == null)
-                    return null;
-
-                List<Point> toBeHourlyPoints = new List<Point>();
-                for (int i = 0, positionOfPoint = 1; i < Points.Count - 4; i = i + 4, positionOfPoint++)
-                {
-                    double averageInHour = 0;
-                    for (int j = i; j < i + 4; j++)
-                    {
-                        Point thisPoint = this.Points[j];
-                        averageInHour = averageInHour + thisPoint.Quantity;
-                    }
-                    averageInHour = averageInHour / 4;
-                    Point temporaryPoint = new Point(positionOfPoint, (int) averageInHour);
-                    toBeHourlyPoints.Add(temporaryPoint);
-                }
-                return toBeHourlyPoints;
+            {       
+                return Helper.Aggregate(this, 4);
             }
             private set {}
-        } 
+        }
+
+        [JsonIgnore]
+        public List<Point>? DailyPoints
+        {
+            get
+            {
+               return Helper.Aggregate(this, 96);
+            }
+            private set {}
+        }
+
+        [JsonIgnore]
+        public List<Point>? WeeklyPoints
+        {
+            get
+            {
+                return Helper.Aggregate(this, 672);
+            }
+            private set {}
+        }
+
+        [JsonIgnore]
+        public List<Point>? MonthlyPoints
+        {
+            get
+            {
+                return Helper.Aggregate(this, 2928);
+            }
+            private set {}
+        }
 
         public MarketDocument(){}
 
@@ -119,6 +133,28 @@ namespace LackmannApi
         {
             this.Position = position;
             this.Quantity = quantity;
+        }
+    }
+
+    class Helper
+    {
+        public static List<Point> Aggregate(MarketDocument document, int step)
+        {
+            List<Point> points = new List<Point>();
+
+                for ( int i = 0, positionOfPoint = 1; i < document.Points.Count - step; i = i + step, positionOfPoint++ )
+                {
+                    int averageInWeek = 0;
+                    
+                    for( int j = i; j < i + step; j++ )
+                    {
+                        averageInWeek = averageInWeek + document.Points[j].Quantity;
+                    }
+                    averageInWeek = averageInWeek / step;
+                    Point point = new Point(positionOfPoint, (int) averageInWeek);
+                    points.Add(point);
+                }
+                return points;
         }
     }
 }

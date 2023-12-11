@@ -12,16 +12,22 @@ app.UseSwaggerUI();
 app.MapGet("/", () => "Hello");
 app.MapGet("/documents", () => GetAllDocuments());
 app.MapGet("documents/{id}", (int id) => FetchFromDatabase(id));
-app.MapGet("/documents/{id}/points", (int id) => 
-{
-    MarketDocument document = FetchFromDatabase(id);
-    //document.DrawGraph();
-    return FetchPoints(document);
-});
-app.MapGet("documents/{id}/hourly", (int id) =>
+app.MapGet("/documents/{id}/{interval}", (int id, string interval) => 
 {
     MarketDocument document = FetchFromDatabase(id);
     document.Points = FetchPoints(document);
-    return document.HourlyPoints; // this returns the length of the hourly array. Modify to return the array.
+
+    if(interval.Equals("default"))
+        return document.Points;
+    if(interval.Equals("hourly"))
+        return document.HourlyPoints;
+    if(interval.Equals("daily"))
+        return document.DailyPoints;
+    if(interval.Equals("weekly"))
+        return document.WeeklyPoints;
+    if(interval.Equals("monthly"))
+        return document.MonthlyPoints;
+    
+    return document.Points;
 });
 app.Run();
