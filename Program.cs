@@ -10,7 +10,9 @@ app.UseSwagger();
 app.UseSwaggerUI();
 
 app.MapGet("/", () => "API Default Path");
-app.MapGet("/documents", () => GetAllDocuments());
+app.MapGet("/documents", () => GetAllDocuments())
+.WithTags("All Documents");
+
 app.MapGet("documents/{id}", (int id) => FetchFromDatabase(id));
 app.MapGet("/documents/{id}/{interval}", (int id, string interval) => 
 {

@@ -39,3 +39,6 @@ C:\Users\User\Desktop\Rilind_Temporary\Minimal_API\LackmannApi\bin\Debug\net6.0\
 C:\Users\User\Desktop\Rilind_Temporary\Minimal_API\LackmannApi\bin\Debug\net6.0\ScottPlot.dll
 C:\Users\User\Desktop\Rilind_Temporary\Minimal_API\LackmannApi\bin\Debug\net6.0\System.Drawing.Common.dll
 C:\Users\User\Desktop\Rilind_Temporary\Minimal_API\LackmannApi\bin\Debug\net6.0\runtimes\win\lib\net6.0\Microsoft.Win32.SystemEvents.dll
+C:\Users\User\Desktop\Rilind_Temporary\Minimal_API\LackmannApi\bin\Debug\net6.0\LackmannApi.xml
+C:\Users\User\Desktop\Rilind_Temporary\Minimal_API\LackmannApi\obj\Debug\net6.0\LackmannApi.xml
+C:\Users\User\Desktop\Rilind_Temporary\Minimal_API\LackmannApi\bin\Debug\net6.0\Swashbuckle.AspNetCore.Annotations.dll
