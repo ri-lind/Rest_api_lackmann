@@ -94,28 +94,46 @@ namespace LackmannApi
             return string.Format("{0}, {1}, {2}, {3}, {4}, {5}", MRID, RevisionNumber, Type, SenderMRID, ReceiverMRID, CreatedTime);
         }
 
-        public void DrawGraph()
+        public void DrawGraph(string interval)
         {
-            int lengthOfArray = 7; //this.Points.Count;
-
-            double[] x_axis = new double[lengthOfArray];
-            double[] y_axis = new double[lengthOfArray];
+            List<Point> points = this.Points;
+            if(interval.Equals("hourly"))
+            {
+                points = this.HourlyPoints;
+            }
+            if(interval.Equals("daily"))
+            {
+                points = this.DailyPoints;
+            }
+               
+            if(interval.Equals("weekly"))
+            {
+                points = this.WeeklyPoints;
+            }
+               
+            if(interval.Equals("monthly"))
+            {
+                points = this.MonthlyPoints;
+            }
+            
+            double[] x_axis = new double[points.Count];
+            double[] y_axis = new double[points.Count];
 
             int index = 0;
-            foreach (Point point in this.Points)
+            foreach (Point point in points)
             {
-                if(index == lengthOfArray)
+                if(index == points.Count)
                 {
                     break;
                 }
                 x_axis[index] = point.Position;
                 y_axis[index] = point.Quantity;
-                Console.Write($"{point.Quantity} ");
+                //Console.Write($"{point.Quantity} ");
                 index = index + 1;
             }
             var plot = new ScottPlot.Plot(400, 300);
             plot.AddScatter(x_axis, y_axis);
-            plot.SaveFig($"Graph {this.MRID}.png");
+            plot.SaveFig($"{interval} Graph {this.MRID}.png");
         }
      
 

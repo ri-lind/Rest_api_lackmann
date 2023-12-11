@@ -9,7 +9,7 @@ var app = builder.Build();
 app.UseSwagger();
 app.UseSwaggerUI();
 
-app.MapGet("/", () => "Hello");
+app.MapGet("/", () => "API Default Path");
 app.MapGet("/documents", () => GetAllDocuments());
 app.MapGet("documents/{id}", (int id) => FetchFromDatabase(id));
 app.MapGet("/documents/{id}/{interval}", (int id, string interval) => 
@@ -29,5 +29,13 @@ app.MapGet("/documents/{id}/{interval}", (int id, string interval) =>
         return document.MonthlyPoints;
     
     return document.Points;
+});
+app.MapGet("/documents/{id}/{interval}/draw", (int id, string interval) =>
+{
+    MarketDocument document = FetchFromDatabase(id);
+    document.Points = FetchPoints(document);
+
+    document.DrawGraph(interval);
+    return $"{interval} Graph with MRID: {document.MRID} was drawn.";
 });
 app.Run();
