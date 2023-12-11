@@ -17,7 +17,7 @@ namespace LackmannApi
 {
     public class DatabaseManager
     {
-        public static ArrayList GetAllDocuments()
+        public static List<MarketDocument> GetAllDocuments()
         {
             string connectionString = "Host=localhost;Username=postgres;Password=postgres;Database=lackmann";
             using NpgsqlConnection connection = new NpgsqlConnection(connectionString);
@@ -25,7 +25,7 @@ namespace LackmannApi
             NpgsqlCommand command = new NpgsqlCommand("SELECT * FROM marketdocument");
             command.Connection = connection;
             NpgsqlDataReader reader = command.ExecuteReader();
-            ArrayList documents = new ArrayList();
+            List<MarketDocument> documents = new List<MarketDocument>();
             while(reader.Read())
             {
                 documents.Add(CreateDocument(reader));
@@ -74,7 +74,7 @@ namespace LackmannApi
 
         }
 
-        public static ArrayList FetchPoints(MarketDocument marketDocument)
+        public static List<Point> FetchPoints(MarketDocument marketDocument)
         {
             string connectionString = "Host=localhost;Username=postgres;Password=postgres;Database=lackmann";
             NpgsqlConnection con = new NpgsqlConnection(connectionString);
@@ -86,7 +86,7 @@ namespace LackmannApi
 
             cmd.CommandText = selectStatement;
             NpgsqlDataReader dataReader = cmd.ExecuteReader();
-            ArrayList points = new ArrayList();
+            List<Point> points = new List<Point>();
 
             while(dataReader.Read())
             {
